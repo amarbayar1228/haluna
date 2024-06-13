@@ -1,5 +1,4 @@
 "use client";
-
 import {
   Button,
   Checkbox,
@@ -13,8 +12,6 @@ import {
 } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { useEffect, useState } from "react";
-import Write from "./component/write/page";
-import Listen from "./component/listen/page";
 
 const data = [
   {
@@ -681,7 +678,7 @@ const data = [
 ];
 
 
-export default function Home() {
+export default function Listen() {
   const [resultData, setResultData] = useState();
   const [errorCount, seterrorCount] = useState(0);
   const [segmentedValue, setSegmentedValue] = useState("Унших");
@@ -717,19 +714,8 @@ export default function Home() {
     console.log("Failed:", errorInfo);
   };
   return (
-    <div className="flex justify-center w-full mt-6">
-      <div className="bg-white w-[600px] max-md:w-ful m-2 p-6 max-md:mx-6 max-md:p-2 border border-black text-xs mb-20">
-        <Segmented<string>
-            className="mb-3"
-            options={['Унших', 'Бичих', 'Сонсох']}
-            onChange={(value) => {
-                setSegmentedValue(value);
-            }}
-        />
-
-       {segmentedValue === "Унших" ? 
-      <>
-         <div className="w-full border border-black">
+     <>
+        <div className="w-full border border-black">
           <div className="flex-col justify-between gap-5 w-full">
             <div className="flex justify-between gap-5 w-full px-12 py-3 font-bold max-md:px-2">
               <div>2024학년도 한국어 능력평가</div>
@@ -748,138 +734,6 @@ export default function Home() {
             </div>
           </div>
         </div> 
-        <div className="text-xs"> 
-          {resultData ? (
-            <div className="flex items-center justify-end w-full mt-2 gap-4">
-              <div className="text-red-500">Алдсан тоо: {errorCount}</div>
-              <div className="text-green-500">
-                Зөв хариулсан: {33 - errorCount}
-              </div>
-
-              <Button
-                type="primary"
-                size="small"
-                onClick={() => (
-                  form.resetFields(), setResultData(undefined), seterrorCount(0)
-                )}
-              >
-                Шинээр эхлэх
-              </Button>
-            </div>
-          ) : null}
-          <Form
-            form={form}
-            name="basic"
-            labelCol={{ span: 24 }}
-            wrapperCol={{ span: 24 }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            autoComplete="off"
-          >
-            {data?.map((e: any, i: number) => (
-              <div className="text-xs w-full pb-2" key={i}>
-                <div
-                  className={
-                    e.subTitle
-                      ? "font-bold text-sm pt-4 border-t-8 border-gray-400"
-                      : "font-bold text-sm "
-                  }
-                >
-                  {e.subTitle ? e.subTitle : ""}
-                </div>
-                {e.headTitle ? e.headTitle : null}
-
-                {e.question ?
-                <div className={"font-bold text-sm mt-3"}>
-                  {e.question} (................ )
-                </div> 
-                : null }
-                <div className="text-center border border-black px-4 py-1 mt-2 leading-5 tracking-widest">
-                  {e.title}
-                </div>
-                {e.contentDetail ? e.contentDetail : null}
-
-                <Form.Item<any>
-                  label=""
-                  name={e.head}
-                  rules={[
-                    {
-                      required: true,
-                      message: "Заавал бөглөнө үү!",
-                    },
-                  ]}
-                  className="mt-2 mx-6"
-                >
-                  <Radio.Group
-                    size="small"
-                    value={1}
-                    className="w-full"
-                    style={{ width: "100%" }}
-                  >
-                    <div className="grid grid-cols-4 w-full gap-2">
-                      {e.contents?.map((details: any, index: number) => (
-                        <Radio
-                          value={details.id}
-                          key={index}
-                          className={e.layout}
-                        >
-                          {" "}
-                          {details.name}{" "}
-                        </Radio>
-                      ))}
-                    </div>
-                  </Radio.Group>
-                </Form.Item> 
-                <div className="-mt-4"> 
-                  {resultData ? (
-                    e.head == Object.entries(resultData)[i]?.[0] ? (
-                      e.answer === Object.entries(resultData)[i]?.[1] ? (
-                        ""
-                      ) : (
-                        <div className="text-red-500">
-                          {e.head === "question1228" ? "" :  "Зөв хариулт: " + e.answerStr }
-                        </div>
-                      )
-                    ) : (
-                       ""
-                    )
-                  ) : (
-                    ""
-                  )}
-                </div>
-              </div>
-            ))}
-  
-            {resultData ? (
-              <div className="flex items-center justify-end w-full mt-2 gap-4 mb-4">
-                <div className="text-red-500">Алдсан тоо: {errorCount}</div>
-                <div className="text-green-500">
-                  Зөв хариулсан: {33 - errorCount}
-                </div>
-                <Button
-                  type="primary"
-                  size="small"
-                  onClick={() => (
-                    form.resetFields(),
-                    setResultData(undefined),
-                    seterrorCount(0)
-                  )}
-                >
-                  Шинээр эхлэх
-                </Button>
-              </div>
-            ) : null}
-            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-              <Button type="primary" htmlType="submit">
-                Шалгалтаа дуусгах
-              </Button>
-            </Form.Item>
-          </Form>
-        </div>
-      </> 
-      : segmentedValue === "Бичих" ? <Write /> : <div> <Listen /></div>
-      }
-      </div>
-    </div>
+     </>
   );
 }
