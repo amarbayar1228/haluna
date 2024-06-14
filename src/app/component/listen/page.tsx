@@ -3,8 +3,10 @@ import {
   Button,
   Checkbox,
   Flex,
+  FloatButton,
   Form,
   FormProps,
+  Image,
   Input,
   Radio,
   Segmented,
@@ -12,676 +14,585 @@ import {
 } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { useEffect, useState } from "react";
+import AudioPlayer from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
+import { CommentOutlined, CustomerServiceOutlined } from '@ant-design/icons';
 
 const data = [
   {
     head: "question1",
     question: 1,
-    title: "저는 눈이 크고 어깨가 넓은 남자를 좋아해요.",
-    answer: 3,
-    answerStr: "3. 외모",
+    subtitle: <div className="font-bold mt-2">※ [1~4] 다음을 듣고 {"<보기>"}와 같이 물음에 맞는 대답을 고르십시오.</div>,
+    title: <div className="font-bold">1. (3점)</div>,
+    answer: 2,
+    answerStr: "2. 저는 히엔이라고 해요.",
+    contentDetail: <div className="relative w-full border border-black mt-4 px-3 py-4 max-md:px-2 mb-2 text-xs">
+      <div className="absolute flex justify-center w-full left-0 -top-3 font-bold text-sm">
+        <div className="bg-white px-4">보기</div>
+      </div>
+      <div>
+        <div>가: 물이에요?</div>
+        <div>나: ________________________</div>
+      </div>
+      <div className="grid gap-2 grid-cols-4 mt-2">
+          <div className="flex items-center col-span-2">
+            <div className="flex items-center justify-center text-xs rounded-full w-4 h-4 bg-black text-white mr-1">1</div>
+            <div> 네, 물이에요.</div>
+          </div>
+          <div className="flex items-center col-span-2">
+            <div className="flex items-center justify-center text-xs rounded-full w-4 h-4 border-2 mr-1">2</div>
+            <div> 네, 물이 아니에요.</div>
+          </div>
+          <div className="flex items-center col-span-2">
+            <div className="flex items-center justify-center text-xs rounded-full w-4 h-4 border-2 mr-1">2</div>
+            <div> 아니요, 물이 좋아요.</div>
+          </div>
+          <div className="flex items-center col-span-2">
+            <div className="flex items-center justify-center text-xs rounded-full w-4 h-4 border-2 mr-1">2</div>
+            <div> 아니요, 물이 맛있어요.</div>
+          </div>
+      </div>
+  </div>,
     contents: [
-      { id: 1, name: "1. 성격" },
-      { id: 2, name: "2. 취미" },
-      { id: 3, name: "3. 외모" },
-      { id: 4, name: "4. 습관" },
+      { id: 1, name: "1. 저는 학생이에요." },
+      { id: 2, name: "2. 저는 히엔이라고 해요." },
+      { id: 3, name: "3. 저는 학생이 아니에요." },
+      { id: 4, name: "4. 저는 스티븐이라고 해요." },
     ],
-    layout: "col-span-1 text-xs",
-  },
+    layout: "col-span-2 text-xs",
+  }, 
   {
     head: "question2",
     question: 2,
-    title: "저는 산을 좋아해서 시간이 있으면 등산을 합니다.",
+    title: <div className="font-bold">2. (3점)</div>,
     answer: 1,
-    answerStr: "1. 취미",
+    answerStr: "1. 아주 재미있었어요.", 
     contents: [
-      { id: 1, name: "1. 취미" },
-      { id: 2, name: "2. 장소" },
-      { id: 3, name: "3. 신체" },
-      { id: 4, name: "4. 모임" },
+      { id: 1, name: "1. 아주 재미있었어요." },
+      { id: 2, name: "2. 자주 영화를 봤어요." },
+      { id: 3, name: "3. 재미있는 영화를 봐요." },
+      { id: 4, name: "4. 영화 보는 것을 좋아해요." },
     ],
-    layout: "col-span-1 text-xs",
-  },
+    layout: "col-span-2 text-[11px]",
+  }, 
   {
     head: "question3",
     question: 3,
-    title: "지난주에 산 원피스가 조금 커서 작은 거로 바꿨습니다.",
-    answer: 1,
-    answerStr: "1. 교환",
+    title: <div className="font-bold">3. (3점)</div>,
+    answer: 4,
+    answerStr: "4. 일주일 동안 여행했어요.", 
     contents: [
-      { id: 1, name: "1. 교환 " },
-      { id: 2, name: "2. 환불" },
-      { id: 3, name: "3. 색깔" },
-      { id: 4, name: "4. 디자인" },
+      { id: 1, name: "1. 여행해 봤어요." },
+      { id: 2, name: "2. 제주도에 갔다 왔어요." },
+      { id: 3, name: "3. 며칠인지 모르겠어요." },
+      { id: 4, name: "4. 일주일 동안 여행했어요." },
     ],
-    layout: "col-span-1 text-xs",
-  },
+    layout: "col-span-2 text-[11px]",
+  }, 
   {
     head: "question4",
     question: 4,
-    title:
-      "이번 토요일에 베트남 음식을 만들 거예요. 우리 집에 저녁 먹으러 오세요.",
+    title: <div className="font-bold">4. (3점)</div>,
     answer: 4,
-    answerStr: "4. 초대",
+    answerStr: "4. 공부하는 것 같아요.", 
     contents: [
-      { id: 1, name: "1. 요리 " },
-      { id: 2, name: "2. 주말" },
-      { id: 3, name: "3. 오후" },
-      { id: 4, name: "4. 초대" },
+      { id: 1, name: "1. 자면 돼요." },
+      { id: 2, name: "2. 혼자 공부할까요?" },
+      { id: 3, name: "3. 아직 못 했어요." },
+      { id: 4, name: "4. 공부하는 것 같아요." },
     ],
-    layout: "col-span-1 text-xs",
-  },
+    layout: "col-span-2 text-[11px]",
+  }, 
   {
     head: "question5",
     question: 5,
-    title:
-      "제주도까지 비행기를 타고 갈 수 있습니다. 부산에서 배를 타고도 갈 수 있습니다.",
+    subtitle: <div className="font-bold mt-2">※ [5~8] 여기는 어디입니까? {"<보기>"}와 같이 알맞은 것을 고르십시오.</div>,
+    title: <div className="font-bold">5. (3점)</div>,
     answer: 3,
-    answerStr: "3. 교통",
+    answerStr: "3. 시장",
+    contentDetail: <div className="relative w-full border border-black mt-4 px-3 py-4 max-md:px-2 mb-2 text-xs">
+      <div className="absolute flex justify-center w-full left-0 -top-3 font-bold text-sm">
+        <div className="bg-white px-4">보기</div>
+      </div>
+      <div>
+        <div>가: 어디가 아프세요?</div>
+        <div>나: 배가 아파요.</div>
+      </div>
+      <div className="grid gap-2 grid-cols-4 mt-2">
+          <div className="flex items-center col-span-2">
+            <div className="flex items-center justify-center text-xs rounded-full w-4 h-4 bg-black text-white mr-1">1</div>
+            <div> 병원</div>
+          </div>
+          <div className="flex items-center col-span-2">
+            <div className="flex items-center justify-center text-xs rounded-full w-4 h-4 border-2 mr-1">2</div>
+            <div> 학교</div>
+          </div>
+          <div className="flex items-center col-span-2">
+            <div className="flex items-center justify-center text-xs rounded-full w-4 h-4 border-2 mr-1">2</div>
+            <div> 시장</div>
+          </div>
+          <div className="flex items-center col-span-2">
+            <div className="flex items-center justify-center text-xs rounded-full w-4 h-4 border-2 mr-1">2</div>
+            <div> 백화점</div>
+          </div>
+      </div>
+  </div>,
     contents: [
-      { id: 1, name: "1. 여행" },
-      { id: 2, name: "2. 방학" },
-      { id: 3, name: "3. 교통" },
-      { id: 4, name: "4. 노선" },
+      { id: 1, name: "1. 역" },
+      { id: 2, name: "2. 공항" },
+      { id: 3, name: "3. 여행사" },
+      { id: 4, name: "4. 운동장" },
     ],
-    layout: "col-span-1 text-xs",
-  },
+    layout: "max-md:col-span-2 col-span-1  text-xs",
+  }, 
   {
     head: "question6",
     question: 6,
-    subTitle:
-      " * [6∼10] 다음을 읽고 밑줄 친 부분과 의미가 비슷한 것을 고르십시오. (각 3점)",
-    title: (
-      <div className="flex text-center justify-center w-full">
-        여기에 <p className="underline pl-1 pr-1"> 차를 세우면 안 돼</p>.
-      </div>
-    ),
+    title: <div className="font-bold">6. (3점)</div>,
     answer: 2,
-    answerStr: "2. 주차 금지",
+    answerStr: "2. 우체국", 
     contents: [
-      { id: 1, name: "1. 금연" },
-      { id: 2, name: "2. 주차 금지" },
-      { id: 3, name: "3. 사진 촬영 금지" },
-      { id: 4, name: "4. 음식물 반입 금지" },
+      { id: 1, name: "1. 도서관" },
+      { id: 2, name: "2. 우체국" },
+      { id: 3, name: "3. 정류장" },
+      { id: 4, name: "4. 미술관" },
     ],
-    layout: "col-span-2 w-full text-xs",
-  },
+    layout: "max-md:col-span-2 col-span-1 text-xs",
+  }, 
   {
     head: "question7",
     question: 7,
-    title: (
-      <div className="flex text-center justify-center w-full">
-        시간이 없는데 피자를 <p className="underline pl-1 pr-1">시킬까요?</p>
-      </div>
-    ),
+    title: <div className="font-bold">7. (3점)</div>,
     answer: 1,
-    answerStr: "1. 주문하다",
+    answerStr: "1. 택시", 
     contents: [
-      { id: 1, name: "1. 주문하다" },
-      { id: 2, name: "2. 추천하다" },
-      { id: 3, name: "3. 정리하다" },
-      { id: 4, name: "4. 소개하다" },
+      { id: 1, name: "1. 택시" },
+      { id: 2, name: "2. 호텔" },
+      { id: 3, name: "3. 회사" },
+      { id: 4, name: "4. 빵집" },
     ],
-    layout: "col-span-2 w-full text-xs",
-  },
+    layout: "max-md:col-span-2 col-span-1 text-xs",
+  }, 
   {
     head: "question8",
     question: 8,
-    title: (
-      <div className="flex text-center justify-center w-full">
-        이번 주 토요일에 어디에서 <p className="underline pl-1 pr-1">만나요?</p>
-      </div>
-    ),
-    answer: 4,
-    answerStr: "4. 모여요",
+    title: <div className="font-bold">8. (3점)</div>,
+    answer: 2,
+    answerStr: "2. 은행", 
     contents: [
-      { id: 1, name: "1. 나가요" },
-      { id: 2, name: "2. 좋아요" },
-      { id: 3, name: "3. 다녀요" },
-      { id: 4, name: "4. 모여요" },
+      { id: 1, name: "1. 꽃집" },
+      { id: 2, name: "2. 은행" },
+      { id: 3, name: "3. 약국" },
+      { id: 4, name: "4. 극장" },
     ],
-
-    layout: "col-span-2 w-full text-xs",
-  },
+    layout: "max-md:col-span-2 col-span-1 text-xs",
+  }, 
   {
     head: "question9",
     question: 9,
-    title: (
-      <div className="flex text-center justify-center w-full">
-        여기에서 <p className="underline pl-1 pr-1">가까운 곳에는</p> 꽃집이
-        없어요.
+    subtitle: <div className="font-bold mt-2">※ [9~12] 다음은 무엇에 대해 말하고 있습니까? {"<보기>"}와 같이 알맞은 것을 고르십시오.</div>,
+    title: <div className="font-bold">9. (3점)</div>,
+    answer: 3,
+    answerStr: "3. 환전",
+    contentDetail: <div className="relative w-full border border-black mt-4 px-3 py-4 max-md:px-2 mb-2 text-xs">
+      <div className="absolute flex justify-center w-full left-0 -top-3 font-bold text-sm">
+        <div className="bg-white px-4">보기</div>
       </div>
-    ),
-    answer: 4,
-    answerStr: "4. 근처",
+      <div>
+        <div>가: 누구예요?</div>
+        <div>나: 이 사람은 형이고, 이 사람은 동생이에요.</div>
+      </div>
+      <div className="grid gap-2 grid-cols-4 mt-2">
+          <div className="flex items-center col-span-2">
+            <div className="flex items-center justify-center text-xs rounded-full w-4 h-4 bg-black text-white mr-1">1</div>
+            <div> 가족</div>
+          </div>
+          <div className="flex items-center col-span-2">
+            <div className="flex items-center justify-center text-xs rounded-full w-4 h-4 border-2 mr-1">2</div>
+            <div> 친구</div>
+          </div>
+          <div className="flex items-center col-span-2">
+            <div className="flex items-center justify-center text-xs rounded-full w-4 h-4 border-2 mr-1">3</div>
+            <div> 선생님</div>
+          </div>
+          <div className="flex items-center col-span-2">
+            <div className="flex items-center justify-center text-xs rounded-full w-4 h-4 border-2 mr-1">4</div>
+            <div> 부모님</div>
+          </div>
+      </div>
+  </div>,
     contents: [
-      { id: 1, name: "1. 광장" },
-      { id: 2, name: "2. 거리" },
-      { id: 3, name: "3. 종점" },
-      { id: 4, name: "4. 근처" },
+      { id: 1, name: "1. 교환" },
+      { id: 2, name: "2. 예약" },
+      { id: 3, name: "3. 환전" },
+      { id: 4, name: "4. 환불" },
     ],
-    layout: "col-span-2 w-full text-xs",
-  },
+    layout: "max-md:col-span-2 col-span-1  text-xs",
+  }, 
   {
     head: "question10",
     question: 10,
-    title: (
-      <div className="flex text-center justify-center w-full">
-        추석에 고향에 가려면 표를 빨리 사{" "}
-        <p className="underline pl-1 pr-1">놓아야</p> 꽃집이 돼요.
-      </div>
-    ),
-    answer: 3,
-    answerStr: "3. 두어야",
+    title: <div className="font-bold">10. (3점)</div>,
+    answer: 2,
+    answerStr: "2. 교통편", 
     contents: [
-      { id: 1, name: "1. 있어야" },
-      { id: 2, name: "2. 주어야" },
-      { id: 3, name: "3. 두어야" },
-      { id: 4, name: "4. 버려야" },
+      { id: 1, name: "1. 일정" },
+      { id: 2, name: "2. 교통편" },
+      { id: 3, name: "3. 항공료" },
+      { id: 4, name: "4. 숙박비" },
     ],
-    layout: "col-span-2 w-full text-xs",
-  },
-
-  // subtitle ========================= =================================================================================================================================================================================================================================
+    layout: "max-md:col-span-2 col-span-1 text-xs",
+  }, 
   {
     head: "question11",
     question: 11,
-    subTitle:
-      " * [11∼15] 다음을 읽고 ( )에 들어갈 내용으로 가장 알맞은 것을 고르십시오. (각 3점)",
-    title: (
-      <div className="flex text-center justify-center w-full">
-        유진 씨는 ( .............. ) 성격이라서 조용히 혼자 있는 것을 좋아해요
-      </div>
-    ),
+    title: <div className="font-bold">11. (3점)</div>,
     answer: 3,
-    answerStr: "3. 내성적인",
+    answerStr: "3. 외모", 
     contents: [
-      { id: 1, name: "1. 활발한" },
-      { id: 2, name: "2. 꼼꼼한" },
-      { id: 3, name: "3. 내성적인" },
-      { id: 4, name: "4. 남성적인" },
+      { id: 1, name: "1. 성격" },
+      { id: 2, name: "2. 습관" },
+      { id: 3, name: "3. 외모" },
+      { id: 4, name: "4. 취미" },
     ],
-    layout: "col-span-2 w-full text-xs",
-  },
+    layout: "max-md:col-span-2 col-span-1 text-xs",
+  }, 
   {
     head: "question12",
     question: 12,
-    title: (
-      <div className="flex text-center justify-center w-full">
-        쉬는 시간에 음악을 ( .............. ) 공부해요.
-      </div>
-    ),
-    answer: 3,
-    answerStr: "3. 들으면서",
+    title: <div className="font-bold">12. (3점)</div>,
+    answer: 1,
+    answerStr: "1. 경험", 
     contents: [
-      { id: 1, name: "1. 들으러" },
-      { id: 2, name: "2. 들어서" },
-      { id: 3, name: "3. 들으면서" },
-      { id: 4, name: "4. 들었지만" },
+      { id: 1, name: "1. 경험" },
+      { id: 2, name: "2. 계절" },
+      { id: 3, name: "3. 쇼핑" },
+      { id: 4, name: "4. 운동" },
     ],
-    layout: "col-span-2 w-full text-xs",
-  },
+    layout: "max-md:col-span-2 col-span-1 text-xs",
+  }, 
+  
   {
     head: "question13",
     question: 13,
-    title: (
-      <div className="flex text-center justify-center w-full">
-        저는 다른 나라의 언어나 문화에 ( .............. ) 이/가 많아서 여행을 자주 다닙니다.
-      </div>
-    ),
+    subtitle: <div className="font-bold mt-2">※ [13~16] 다음 대화를 듣고 알맞은 그림을 고르십시오.</div>,
+    title: <div className="font-bold mt-2">13. (3점)</div>,
     answer: 3,
-    answerStr: "3. 관심",
+    answerStr: "3", 
     contents: [
-      { id: 1, name: "1. 공부" },
-      { id: 2, name: "2. 역사" },
-      { id: 3, name: "3. 관심" },
-      { id: 4, name: "4. 마음" },
+      { id: 1, image: "/image/pic13-1.png" },
+      { id: 2, image: "/image/pic13-2.png" },
+      { id: 3, image: "/image/pic13-3.png" },
+      { id: 4, image: "/image/pic13-4.png" },
     ],
-    layout: "col-span-2 w-full text-xs",
-  },
+    layout: "col-span-2  text-xs",
+  },  
   {
     head: "question14",
     question: 14,
-    title: (
-      <div className="flex text-center justify-center w-full">
-        9시 30분에 수업 시작인데 오늘 아침에 ( .............. ) 일어나서 10시에 학교에 갔어요.
-      </div>
-    ),
-    answer: 1,
-    answerStr: "1. 늦게",
+    title: <div className="font-bold mt-2">14. (3점)</div>,
+    answer: 4,
+    answerStr: "4", 
     contents: [
-      { id: 1, name: "1. 늦게" },
-      { id: 2, name: "2. 빨리" },
-      { id: 3, name: "3. 많이" },
-      { id: 4, name: "4. 조금" },
+      { id: 1, image: "/image/pic14-1.png" },
+      { id: 2, image: "/image/pic14-2.png" },
+      { id: 3, image: "/image/pic14-3.png" },
+      { id: 4, image: "/image/pic14-4.png" },
     ],
-    layout: "col-span-2 w-full text-xs",
-  },
+    layout: "col-span-2  text-xs",
+  },  
   {
     head: "question15",
     question: 15,
-    title: (
-      <div className="flex text-center justify-center w-full">
-        오늘 날씨가 너무 추워요. 그래서 목도리를 하고 장갑도 ( .............. )  나갈 거예요.
-      </div>
-    ),
-    answer: 4,
-    answerStr: "4. 끼고",
+    title: <div className="font-bold mt-2">15. (3점)</div>,
+    answer: 1,
+    answerStr: "1.", 
     contents: [
-      { id: 1, name: "1. 쓰고" },
-      { id: 2, name: "2. 벗고" },
-      { id: 3, name: "3. 신고" },
-      { id: 4, name: "4. 끼고" },
+      { id: 1, image: "/image/pic15-1.png" },
+      { id: 2, image: "/image/pic15-2.png" },
+      { id: 3, image: "/image/pic15-3.png" },
+      { id: 4, image: "/image/pic15-4.png" },
     ],
-    layout: "col-span-2 w-full text-xs",
-  },
+    layout: "col-span-2  text-xs",
+  },  
   {
     head: "question16",
     question: 16,
-    subTitle:
-      "※ [16∼17] 다음을 읽고 맞지 않는 것을 고르십시오. (각 3점)",
-    title: (
-      <div className="flex text-justify w-full indent-4">
-        건강하게 살기 위해서 몸에 좋은 약이나 특별한 음식을 먹는 사람들이 많습니다. 그러나 제일 좋은 방법은 운동을 하는 것입니다. 여러 가지 운동이 있지만 그중에서 테니스나 축구처럼 여러 사람이 같이하는 운동이 건강에 더 좋습니다. 그리고 집 안에서 하는 것보다 집 밖에서 하는 운동이 더 좋습니다. 
-      </div>
-    ),
-    answer: 1,
-    answerStr: "1. 집 밖보다 안에서 하는 운동이 더 좋습니다.",
+    title: <div className="font-bold mt-2">16. (3점)</div>,
+    answer: 3,
+    answerStr: "3", 
     contents: [
-      { id: 1, name: "1. 집 밖보다 안에서 하는 운동이 더 좋습니다." },
-      { id: 2, name: "2. 약을 먹는 것보다 운동하는 것이 더 중요합니다. " },
-      { id: 3, name: "3. 사람들은 건강을 위해서 몸에 좋은 약을 먹습니다." },
-      { id: 4, name: "4. 여러 사람과 함께 운동하는 것이 건강에 더 좋습니다." },
+      { id: 1, image: "/image/pic16-1.png" },
+      { id: 2, image: "/image/pic16-2.png" },
+      { id: 3, image: "/image/pic16-3.png" },
+      { id: 4, image: "/image/pic16-4.png" },
     ],
-    layout: "col-span-4 w-full text-xs",
-  },
+    layout: "col-span-2  text-xs",
+  },  
   {
     head: "question17",
     question: 17,
-    title: (
-      <div className="flex text-center justify-center w-full">
-        추석은 한국의 중요한 명절입니다. 추석은 한 해 농사가 잘 끝난 것을 조상들께 감사하는 날입니다. 추석 아침에는 새로 추수한 곡식과 과일로 차례를 지낸 후 성묘를 하러
-        갑니다. 그리고 송편을 만들어서 이웃들과 나눠 먹고 오랜만에 만난 친척들과 이야기하면서 즐거운 시간을 보냅니다. 추석날 밤에는 일 년 중 가장 크고 밝은 보름달을 볼 수
-        있는데 사람들은 그 달을 보면서 소원을 빕니다. 
+    subtitle: <div className="font-bold mt-2">※ [17~21] 다음을 듣고 {"<보기>"}와 같이 대화 내용과 같은 것을 고르십시오.</div>,
+    title: <div className="font-bold">17. (3점)</div>,
+    answer: 4,
+    answerStr: "4. 여자의 친구가 인터뷰를 합니다.",
+    contentDetail: <div className="relative w-full border border-black mt-4 px-3 py-4 max-md:px-2 mb-2 text-xs">
+      <div className="absolute flex justify-center w-full left-0 -top-3 font-bold text-sm">
+        <div className="bg-white px-4">보기</div>
       </div>
-    ),
-    answer: 2,
-    answerStr: "2. 추석날 아침에는 떡국을 만들어 먹습니다.",
+      <div>
+        <div>남자: 편지를 써요?</div>
+        <div>여자: 네. 동생한테 편지를 써요.</div>
+      </div>
+      <div className="grid gap-2 grid-cols-4 mt-2">
+          <div className="flex items-center col-span-2">
+          <div className="flex items-center justify-center text-xs rounded-full w-4 h-4 border-2 mr-1">1</div>
+            <div> 남자는 동생입니다</div>
+          </div>
+          <div className="flex items-center col-span-2">
+            <div className="flex items-center justify-center text-xs rounded-full w-4 h-4 border-2 mr-1">2</div>
+            <div> 여자는 편지를 읽습니다.</div>
+          </div>
+          <div className="flex items-center col-span-2">
+            <div className="flex items-center justify-center text-xs rounded-full w-4 h-4 border-2 mr-1">3</div>
+            <div> 남자는 편지를 씁니다.</div>
+          </div>
+          <div className="flex items-center col-span-2">
+          <div className="flex items-center justify-center text-xs rounded-full w-4 h-4 bg-black text-white mr-1">4</div>
+            <div>여자는 동생이 있습니다.</div>
+          </div>
+      </div>
+  </div>,
     contents: [
-      { id: 1, name: "1. 추석에는 조상들께 차례를 지냅니다." },
-      { id: 2, name: "2. 추석날 아침에는 떡국을 만들어 먹습니다." },
-      { id: 3, name: "3. 추석에는 친척들과 모여서 시간을 보냅니다." },
-      { id: 4, name: "4. 추석날 밤에는 보름달을 보면서 소원을 빕니다." },
+      { id: 1, name: "1. 여자는 배우입니다." },
+      { id: 2, name: "2. 남자는 방송국에서 일합니다." },
+      { id: 3, name: "3. 남자는 내일 방송국에 갑니다." },
+      { id: 4, name: "4. 여자의 친구가 인터뷰를 합니다." },
     ],
-    layout: "col-span-4 w-full text-xs",
-  },
+    layout: "max-md:col-span-4 col-span-4  text-xs",
+  }, 
   {
     head: "question18",
     question: 18,
-    subTitle:
-    "※ [18∼19] 다음을 순서대로 맞게 배열한 것을 고르십시오. (각 3점)",
-    title: (
-      <div className="flex flex-col items-start w-full">
-        <div> (가) 오늘은 ‘큰사랑 한정식집’을 소개하겠습니다.</div>
-        <div> (나) 한국의 전통 음식을 먹고 싶은 사람들에게 이곳을 추천합니다.</div>
-        <div> (다) 큰사랑 한정식집은 인사동에 있는데 지하철역에서 좀 멉니다.</div>
-        <div> (라) 하지만 한국의 전통적인 분위기를 느낄 수 있어서 인기가 많습니다.</div>
-      </div>
-    ),
-    answer: 2,
-    answerStr: "2. (가)-(다)-(라)-(나)",
+    title: <div className="font-bold">18. (3점)</div>,
+    answer: 1,
+    answerStr: "1. 매주 목요일에 퀴즈쇼가 있습니다.", 
     contents: [
-      { id: 1, name: "1. (가)-(나)-(라)-(다)" },
-      { id: 2, name: "2. (가)-(다)-(라)-(나)" },
-      { id: 3, name: "3. (나)-(다)-(가)-(라)" },
-      { id: 4, name: "4. (나)-(라)-(가)-(다)" },
+      { id: 1, name: "1. 매주 목요일에 퀴즈쇼가 있습니다." },
+      { id: 2, name: "2. 퀴즈쇼는 한국인들도 참가할 수 있습니다." },
+      { id: 3, name: "3. 한국 문화와 한국 생활은 문제가 많습니다." },
+      { id: 4, name: "4. 홈페이지 게시판에 신청을 하면 안 됩니다." },
     ],
-    layout: "col-span-2 w-full text-xs",
-  },
+    layout: "col-span-4 text-xs",
+  }, 
   {
     head: "question19",
     question: 19,
-    title: (
-      <div className="flex flex-col items-start w-full">
-        <div>(가) 저는 음악 듣는 걸 좋아해요.</div>
-        <div>(나) 그래서 시간이 나면 음악을 들어요.</div>
-        <div>(다) 같이 가고 싶으면 저에게 전화하세요.</div>
-        <div>(라) 이번 주에도 음악을 들으러 음악회에 갈 거예요. </div>
-      </div>
-    ),
-    answer: 1,
-    answerStr: "1. (가)-(나)-(라)-(다)",
+    title: <div className="font-bold">19. (3점)</div>,
+    answer: 4,
+    answerStr: "4. 남자는 불고기피자를 별로 안 좋아합니다.", 
     contents: [
-      { id: 1, name: "1. (가)-(나)-(라)-(다)" },
-      { id: 2, name: "2. (가)-(다)-(라)-(나)" },
-      { id: 3, name: "3. (나)-(다)-(가)-(라)" },
-      { id: 4, name: "4. (나)-(라)-(가)-(다)" },
+      { id: 1, name: "1. 여자는 불고기를 좋아합니다." },
+      { id: 2, name: "2. 두 사람은 피자를 먹는 중입니다." },
+      { id: 3, name: "3. 두 사람은 지금 바쁘지 않습니다." },
+      { id: 4, name: "4. 남자는 불고기피자를 별로 안 좋아합니다." },
     ],
-    layout: "col-span-2 w-full text-xs",
-  },
-   // subtitle ========================= =================================================================================================================================================================================================================================
-   {
+    layout: "col-span-4 text-xs",
+  }, 
+  {
     head: "question20",
     question: 20,
-    subTitle:
-      "※ [20∼21] 다음을 읽고 ( )에 들어갈 내용으로 가장 알맞은 것을 고르십시오. (각 3점)",
-    title: (
-      <div className="flex  text-justify w-full indent-4">
-        저는 여행을 아주 좋아하고 다른 나라의 언어나 문화에 관심이 많습니다. 이번 가을에 중남미를 (........) 스페인어를 공부하고 있습니다. 스페인어 공부는 재미있지만 발음이 조금 어렵습니다. 그래서 매주 두 시간 정도 스페인어 연습을 도와줄 수 있는 분을 찾고 있습니다. 저는 한국어를 가르쳐 드리겠습니다. 전화 주세요!
-      </div>
-    ),
-    answer: 4,
-    answerStr: "4. 여행하려고",
+    title: <div className="font-bold">20. (3점)</div>,
+    answer: 2,
+    answerStr: "2. 민수는 아침마다 수영을 합니다.", 
     contents: [
-      { id: 1, name: "1. 여행하고" },
-      { id: 2, name: "2. 여행하려면" },
-      { id: 3, name: "3. 여행하면서" },
-      { id: 4, name: "4. 여행하려고" },
+      { id: 1, name: "1. 민수는 요즘 계속 피곤합니다." },
+      { id: 2, name: "2. 민수는 아침마다 수영을 합니다." },
+      { id: 3, name: "3. 아키라는 회사 근처에서 지호를 만났습니다." },
+      { id: 4, name: "4. 아키라는 지호를 만나면 스트레스가 풀립니다." },
     ],
-    layout: "col-span-2 w-full text-xs",
-  },
-  
+    layout: "col-span-4 text-xs",
+  }, 
   {
     head: "question21",
     question: 21,
-    title: (
-      <div className="flex text-justify w-full indent-4">
-        저는 운동하는 것을 아주 좋아합니다. 한국 친구도 만나고 태권도도 배우고 싶어서
-        인터넷 동호회‘태사모’에 (......).‘태사모’는 태권도를 사랑하는 사람들의 모임입니다. 그곳에서 만난 친구들과 자주 모여서 태권도를 연습합니다. 태권도도 배우고
-        좋은 친구도 만날 수 있어서 아주 좋습니다. 
-      </div>
-    ),
-    answer: 1,
-    answerStr: "1. 가입했습니다",
+    subtitle: <div className="font-bold mt-2">※ [21~22] 다음을 듣고 물음에 답하십시오.</div>,
+    title: <div className="font-bold mt-2">21. 남자가 어떤 이야기를 하고 있는지 고르십시오. (4점)</div>,
+    answer: 4,
+    answerStr: "4. 소개",  
     contents: [
-      { id: 1, name: "1. 가입했습니다" },
-      { id: 2, name: "2. 입학했습니다" },
-      { id: 3, name: "3. 만들었습니다" },
-      { id: 4, name: "4. 놀러 갔습니다" },
+      { id: 1, name: "1. 안내" },
+      { id: 2, name: "2. 광고" },
+      { id: 3, name: "3. 초대" },
+      { id: 4, name: "4. 소개" },
     ],
-    layout: "col-span-2 w-full text-xs",
+    layout: "max-md:col-span-4 col-span-4  text-xs",
+  }, 
+  {
+    head: "question22",
+    question: 22,
+    title: <div className="font-bold mt-2">22. 들은 내용과 같은 것을 고르십시오. (4점)</div>,
+    answer: 2,
+    answerStr: "2. 여자의 이상형은 활발한 사람입니다.",  
+    contents: [
+      { id: 1, name: "1. 여자는 학생입니다." },
+      { id: 2, name: "2. 여자의 이상형은 활발한 사람입니다." },
+      { id: 3, name: "3. 남자는 말을 재미있게 하는 학생입니다." },
+      { id: 4, name: "4. 남자는 성격이 조용한 한국 친구가 있습니다." },
+    ],
+    layout: "max-md:col-span-4 col-span-4  text-xs",
+  }, 
+  {
+    head: "question23",
+    question: 23,
+    subtitle: <div className="font-bold mt-2">※ [23~24] 다음을 듣고 물음에 답하십시오.</div>,
+    title: <div className="font-bold mt-2">23. 여자가 집을 구하려는 이유를 고르십시오. (4점)</div>,
+    answer: 4,
+    answerStr: "4. 지금 사는 집이 학교에서 너무 멀어서",  
+    contents: [
+      { id: 1, name: "1. 지금 사는 집의 시설이 안 좋아서" },
+      { id: 2, name: "2. 지금 사는 집의 방이 너무 좁아서" },
+      { id: 3, name: "3. 지금 사는 집이 오래된 원룸이라서" },
+      { id: 4, name: "4. 지금 사는 집이 학교에서 너무 멀어서" },
+    ],
+    layout: "max-md:col-span-4 col-span-4  text-xs",
+  }, 
+  {
+    head: "question24",
+    question: 24,
+    title: <div className="font-bold mt-2">24. 들은 내용과 같은 것을 고르십시오. (4점)</div>,
+    answer: 1,
+    answerStr: "1. 여자는 학교 근처로 이사하고 싶습니다.",  
+    contents: [
+      { id: 1, name: "1. 여자는 학교 근처로 이사하고 싶습니다." },
+      { id: 2, name: "2. 여자와 남자는 원룸에 함께 살고 있습니다." },
+      { id: 3, name: "3. 남자는 시설이 잘되어 있는 원룸을 구했습니다." },
+      { id: 4, name: "4. 남자는 수업 후에 학교 근처에 있는 부동산에 갑니다." },
+    ],
+    layout: "max-md:col-span-4 col-span-4  text-xs",
+  },
+ {
+    head: "question25",
+    question: 25,
+    subtitle: <div className="font-bold mt-2">※ [25~26] 다음을 듣고 물음에 답하십시오.</div>,
+    title: <div className="font-bold mt-2">25. 두 사람이 무엇에 대해 이야기를 하고 있는지 고르십시오. (4점)</div>,
+    answer: 2,
+    answerStr: "2. ‘소리사랑’ 기타 동호회",  
+    contents: [
+      { id: 1, name: "1. 강남역 주말 모임 시간" },
+      { id: 2, name: "2. ‘소리사랑’ 기타 동호회" },
+      { id: 3, name: "3. 일요일에 가면 좋은 모임 " },
+      { id: 4, name: "4. 좋은 친구들을 만나는 방법" },
+    ],
+    layout: "max-md:col-span-4 col-span-4  text-xs",
+  }, 
+  {
+    head: "question26",
+    question: 26,
+    title: <div className="font-bold mt-2">26. 들은 내용과 같은 것을 고르십시오. (4점)</div>,
+    answer: 1,
+    answerStr: "1. 남자는 이번 일요일에 기타 동호회에 갑니다.",  
+    contents: [
+      { id: 1, name: "1. 남자는 이번 일요일에 기타 동호회에 갑니다." },
+      { id: 2, name: "2. 남자와 여자는 강남역 앞에서 처음 만났습니다." },
+      { id: 3, name: "3. 여자는 한 달에 만 원씩 남자에게 돈을 줍니다." },
+      { id: 4, name: "4. 남자와 여자는 이번 일요일에 같이 영화를 볼 것입니다." },
+    ],
+    layout: "max-md:col-span-4 col-span-4  text-xs",
+  },
+  {
+    head: "question27",
+    question: 27,
+    subtitle: <div className="font-bold mt-2">※ [27~28] 다음을 듣고 물음에 답하십시오.</div>,
+    title: <div className="font-bold mt-2">27. 두 사람이 무엇에 대해 이야기를 하고 있는지 고르십시오. (4점)</div>,
+    answer: 4,
+    answerStr: "4. 외국인을 위한 사물놀이 수업",  
+    contents: [
+      { id: 1, name: "1. 국립국악원의 무료 수업" },
+      { id: 2, name: "2. 한국인을 위한 국악 수업" },
+      { id: 3, name: "3. 국립국악원의 추천 프로그램 " },
+      { id: 4, name: "4. 외국인을 위한 사물놀이 수업" },
+    ],
+    layout: "max-md:col-span-4 col-span-4  text-xs",
+  }, 
+  {
+    head: "question28",
+    question: 28,
+    title: <div className="font-bold mt-2">28. 들은 내용과 같은 것을 고르십시오. (4점)</div>,
+    answer: 2,
+    answerStr: "2. 외국인을 위한 수업은 토요일에만 있습니다.",  
+    contents: [
+      { id: 1, name: "1. 전화로만 수업을 신청할 수 있습니다." },
+      { id: 2, name: "2. 외국인을 위한 수업은 토요일에만 있습니다." },
+      { id: 3, name: "3. 여자는 문의할 게 있어서 국립국악원에 갔습니다." },
+      { id: 4, name: "4. 수업을 들을 때 필요한 것은 돈을 내고 사야 합니다." },
+    ],
+    layout: "max-md:col-span-4 col-span-4  text-xs",
+  },
+  {
+    head: "question29",
+    question: 29,
+    subtitle: <div className="font-bold mt-2">※ [29~30] 다음을 듣고 물음에 답하십시오.</div>,
+    title: <div className="font-bold mt-2">29. 남자는 누구입니까?(4점)</div>,
+    answer: 3,
+    answerStr: "3. 지하철 유실물 센터 직원",  
+    contents: [
+      { id: 1, name: "1. 가방 가게 직원" },
+      { id: 2, name: "2. 출입국관리사무소 직원" },
+      { id: 3, name: "3. 지하철 유실물 센터 직원 " },
+      { id: 4, name: "4. 백화점 분실물 보관소 직원" },
+    ],
+    layout: "max-md:col-span-4 col-span-4  text-xs",
+  }, 
+  {
+    head: "question30",
+    question: 30,
+    title: <div className="font-bold mt-2">30. 들은 내용과 같은 것을 고르십시오. (4점)</div>,
+    answer: 1,
+    answerStr: "1. 여자는 오늘 아침에 가방을 잃어버렸습니다.",  
+    contents: [
+      { id: 1, name: "1. 여자는 오늘 아침에 가방을 잃어버렸습니다." },
+      { id: 2, name: "2. 가방은 하얀색이고 까만색 인형이 달려 있습니다. " },
+      { id: 3, name: "3. 가방 안에는 책 두 권하고 핸드폰이 들어 있습니다. " },
+      { id: 4, name: "4. 남자는 여자의 가방을 찾아서 여자에게 주었습니다." },
+    ],
+    layout: "max-md:col-span-4 col-span-4  text-xs",
   },
 
 
 
 
+  
+  
+  
 
-// subtitle ========================= =================================================================================================================================================================================================================================
-{
-  head: "question22",
-  question: 22,
-  subTitle:
-    "※ [22∼24] 다음을 읽고 내용이 같은 것을 고르십시오. (각 3점)",
-  title: (
-    <div className="flex text-justify w-full indent-4">
-       저는 내일 친구들과 여의도 공원으로 놀러 갑니다. 그리고 공원에서 점심을 먹을 겁니다. 저는 내일 친구들하고 먹을 음식을 준비해야 합니다. 내일 낮에는 공원에서 놀고
-        저녁에는 쇼핑을 하려고 합니다. 다음 주에 여행을 가는데 비행기에서 읽을 책도 사려고 합니다.
-    </div>
-  ),
-  answer: 2,
-  answerStr: "2. 내일 먹을 점심을 제가 준비합니다.",
-  contents: [
-    { id: 1, name: "1. 비행기에서 책을 살 수 있습니다." },
-    { id: 2, name: "2. 내일 먹을 점심을 제가 준비합니다. " },
-    { id: 3, name: "3. 저녁에 쇼핑하고 책을 읽을 겁니다." },
-    { id: 4, name: "4. 이번 주에 여행을 가서 책을 삽니다." },
-  ],
-  layout: "col-span-4 w-full text-xs",
-},
-{
-  head: "question23",
-  question: 23,
-  title: (
-    <div className="flex text-justify w-full indent-4">
-     어제 인터넷에서 티셔츠와 운동화를 주문했는데 오늘 오후에 받았습니다. 티셔츠는
-      사이즈도 잘 맞고 디자인도 마음에 들었지만 운동화는 좀 작아서 불편했습니다. 그래서
-      큰 사이즈로 바꾸려고 이메일을 보냈습니다. 빨리 새 운동화가 왔으면 좋겠습니다. 
-    </div>
-  ),
-  answer: 4,
-  answerStr: "4. 운동화 사이즈가 안 맞아서 바꾸려고 합니다.",
-  contents: [
-    { id: 1, name: "1. 오늘 산 티셔츠가 마음에 들었습니다." },
-    { id: 2, name: "2. 티셔츠가 좀 작아서 컸으면 좋겠습니다." },
-    { id: 3, name: "3. 이메일을 보내서 새 운동화를 받았습니다." },
-    { id: 4, name: "4. 운동화 사이즈가 안 맞아서 바꾸려고 합니다." },
-  ],
-  layout: "col-span-4 w-full text-xs",
-},
-{
-  head: "question24",
-  question: 24,
-  title: (
-    <div className="flex text-justify w-full indent-4">
-     우리 부모님은 제 생일 때마다 사진을 찍어 주셨습니다. 제가 태어난 날 찍은 것부터
-      올해 찍은 사진까지 모두 스무 장의 사진이 있습니다. 사진 옆에는 부모님께서 저에게
-      쓰신 글도 볼 수 있습니다. 그 사진들과 글을 보면 부모님의 사랑을 느낄 수 있습니다. 저도 나중에 결혼을 하고 아이를 낳으면 아이에게 그렇게 해 주고 싶습니다. 
-    </div>
-  ),
-  answer: 2,
-  answerStr: "2. 이 사람은 매년 생일 때 찍은 사진이 있습니다.",
-  contents: [
-    { id: 1, name: "1. 이 사람의 부모님은 사진 찍는 일을 합니다." },
-    { id: 2, name: "2. 이 사람은 매년 생일 때 찍은 사진이 있습니다." },
-    { id: 3, name: "3. 이 사람은 아이의 생일마다 사진을 찍어 줍니다." },
-    { id: 4, name: "4. 이 사람은 생일 때마다 부모님께 편지를 씁니다." },
-  ],
-  layout: "col-span-4 w-full text-xs",
-},
-{
-  head: "question25",
-  question: 25,
-  subTitle:
-    "※ [25∼26] 다음 글에서 <보기>의 글이 들어가기에 가장 알맞은 곳을 고르십시오. (각 3점)",
-  title: (
-    <div className="flex text-justify w-full indent-5">
-     안녕하세요? 저는 백석문화대학교에서 역사를 공부하고 있는 이지훈이라고 합니다.
-      ( ㉠ ) 저는 이번 여름에 한 달 동안 중국을 여행할 계획입니다. ( ㉡ ) 전부터
-      중국 역사에 관심이 많아서 중국에 한번 가 보고 싶었습니다. ( ㉢ ) 그래서 여름
-      방학 전까지 매일 두 시간 중국어를 배우려고 합니다. ( ㉣ ) 저에게 중국어를 가르쳐 주실 분을 찾습니다. Jhy@hanmail.net로 연락해 주세요.
-    </div>
-  ),
-  answer: 3,
-  answerStr: "3. ㉢",
-  contents: [
-    { id: 1, name: "1. ㉠"},
-    { id: 2, name: "2. ㉡"},
-    { id: 3, name: "3. ㉢"},
-    { id: 4, name: "4. ㉣"},
-  ],
-  contentDetail: <div className="relative text-center w-full border border-black mt-4 px-3 py-4">
-      그런데 중국어를 전혀 할 줄 몰라서 걱정입니다.
-      <div className="absolute flex justify-center w-full left-0 -top-3 font-bold text-sm">
-        <div className="bg-white px-4">보기</div>
-      </div>
-  </div>,
-  layout: "col-span-1 w-full text-xs",
-},
+  
 
-{
-  head: "question26",
-  question: 26, 
-  title: (
-    <div className="flex text-justify w-full indent-5">
-     저는 한국어를 배운 지 1년이 되었습니다. 처음 한국에 왔을 때는 한국어를 전혀 몰랐기 때문에 모르는 곳을 갈 때마다 친구들이 데려다 주었습니다. ( ㉠ ) 하지만 지금은 한국어 실력이 많이 늘어서 저 혼자 여행도 할 수 있게 되었습니다. ( ㉡ ) 그동안 한국에 살면서 많은 추억을 만들었습니다. ( ㉢ ) 명절을 한국 가족들과 보내면서 한국 문화도 더 잘 알 수 있게 되어서 정말 좋았습니다. ( ㉣ ) 고향에 돌아가면 한국에서 보낸 시간들이 많이 그리울 것 같습니다. 
-    </div>
-  ),
-  answer: 3,
-  answerStr: "3. ㉢",
-  contents: [
-    { id: 1, name: "1. ㉠"},
-    { id: 2, name: "2. ㉡"},
-    { id: 3, name: "3. ㉢"},
-    { id: 4, name: "4. ㉣"},
-  ],
-  contentDetail: <div className="relative text-center w-full border border-black mt-4 px-3 py-4">
-      <div className="absolute flex justify-center w-full left-0 -top-3 font-bold text-sm">
-        <div className="bg-white px-4">보기</div>
-      </div>
-      특히 기억에 남는 일은 추석을 한국 친구 집에서 보낸 것입니다.
-  </div>,
-  layout: "col-span-1 w-full text-xs",
 
-}, 
-{
-  head: "question27",
-  subTitle:
-  "※ [27∼28] 다음 글을 읽고 물음에 답하십시오. (각 3점)",
-  headTitle: <div className=" flex border border-black px-4 py-2 text-justify w-full indent-5 leading-5 tracking-widest">
-        저는 고등학교 다닐 때 ( ㉠ ) 적이 있습니다. 사고 싶은 것이 있어서 돈을 모으려고
-      두 달 동안 햄버거 가게에서 일을 했습니다. 아르바이트를 처음 해 봤기 때문에 실수도 많이
-      하고 힘들었습니다. 아르바이트를 하면서 힘들게 일하시는 부모님께 감사한 마음을 갖게
-      되었습니다. 그리고 그 일을 하기 전까지는 사고 싶은 물건이 있으면 그냥 샀는데
-      아르바이트를 한 후부터는 물건을 살 때 꼭 필요한 물건인지 한 번 더 생각해 보게
-      되었습니다. 
-  </div>,
-  question: 27,
-  title: (
-    <div className="flex text-justify w-full">
-     ( ㉠ )에 들어갈 말을 고르십시오. (.............. )
-    </div>
-  ),
-  answer: 3,
-  answerStr: "3. 아르바이트를 한",
-  contents: [
-    { id: 1, name: "1. 실수를 한"},
-    { id: 2, name: "2. 돈을 많이 쓴"},
-    { id: 3, name: "3. 아르바이트를 한 "},
-    { id: 4, name: "4. 부모님께 선물을 한"},
-  ],
-  layout: "col-span-2 w-full text-xs",
-},
-{
-  head: "question28",
-  question: 28,
-  title: (
-    <div className="flex text-justify w-full">
-     이 글의 내용과 같은 것을 고르십시오. (.............. )
-    </div>
-  ),
-  answer: 2,
-  answerStr: "2. 아르바이트를 할 때 실수한 경험이 많이 있습니다.",
-  contents: [
-    { id: 1, name: "1. 이 사람의 부모님은 햄버거 가게를 하십니다."},
-    { id: 2, name: "2. 아르바이트를 할 때 실수한 경험이 많이 있습니다."},
-    { id: 3, name: "3. 이 일을 하기 전에 아르바이트를 해 본 경험이 있습니다."},
-    { id: 4, name: "4. 아르바이트를 한 후에 물건을 살 때 한 번 더 생각합니다."},
-  ],
-  layout: "col-span-4 w-full text-xs",
-}, 
-{
-  head: "question29",
-  question: 29,
-  subTitle:
-  "※ [27∼28] 다음 글을 읽고 물음에 답하십시오. (각 3점)",
-  headTitle: <div className=" flex border border-black px-4 py-2 text-justify w-full indent-5 leading-5 tracking-widest">
-        저는 내일 친구들과 놀러 갑니다. ( ㉠ ) 곳은 여의도 공원입니다. 우리는 내일 여의도 공원에서 점심을 먹을 겁니다. 저는 내일 친구들하고 먹을 음식과 마실 것을 준비해야 합니다. 내일 낮에는 공원에서 놀고 저녁에는 쇼핑하려고 합니다. 다음 주에 여행을 가는데 비행기에서 볼 책도 사고 친구에게 줄 선물도 사야 합니다.
-  </div>,
-  title: (
-    <div className="flex text-justify w-full">
-      ( ㉠ )에 들어갈 말을 고르십시오.  (.............. )
-    </div>
-  ),
-  answer: 4,
-  answerStr: "4. 놀러 갈",
-  contents: [
-    { id: 1, name: "1. 놀아서"},
-    { id: 2, name: "2. 놀려고"},
-    { id: 3, name: "3. 놀면서"},
-    { id: 4, name: "4. 놀러 갈"},
-  ],
-  layout: "col-span-2 w-full text-xs",
-},
-{
-  head: "question30",
-  question: 30,
-  title: (
-    <div className="flex text-justify w-full">
-      이 글의 내용과 같은 것을 고르십시오. (.............. )
-    </div>
-  ),
-  answer: 2,
-  answerStr: "2. 내일 점심은 여의도 공원에서 먹을 겁니다.",
-  contents: [
-    { id: 1, name: "1. 이번 주에 여행을 갑니다."},
-    { id: 2, name: "2. 내일 점심은 여의도 공원에서 먹을 겁니다."},
-    { id: 3, name: "3. 오늘 낮에 공원에서 놀고 쇼핑을 하려고 합니다."},
-    { id: 4, name: "4. 쇼핑할 때 친구에게 줄 선물로 책을 사야 합니다."},
-  ],
-  layout: "col-span-4 w-full text-xs",
-},
-{
-  head: "question31",
-  question: 31,
-  subTitle:
-  "※ [27∼28] 다음 글을 읽고 물음에 답하십시오. (각 3점)",
-  headTitle: <div className=" flex border border-black px-4 py-2 text-justify w-full indent-5 leading-5 tracking-widest">
-          저는 작년 봄에 한국에 왔습니다. 그동안 한국에서 많은 곳에 가 봤는데 특히 부산에 간
-          것이 가장 기억에 남습니다. 저는 부산에서 영화제에 갔습니다. 부산에서는 매년 가을에
-          일주일 동안 영화제를 하는데 세계 여러 나라에서 감독과 배우들이 많이 옵니다. 거기서
-          다른 나라 영화도 많이 보고 유명한 배우들도 만날 수 있어서 참 좋았습니다. 그리고 부산은 바다와 가까워서 생선 요리도 맛있고 구경할 것도 많습니다. 저는 부산에서 생선회를
-          처음 먹어 봤는데 정말 맛있었습니다. 시간이 있으면 부산에 또 가고 싶습니다.
-  </div>,
-  title: (
-    <div className="flex text-justify w-full">
-      ( ㉠ )에 들어갈 말을 고르십시오.  (.............. )
-    </div>
-  ),
-  answer: 4,
-  answerStr: "2. 영화제는 매년 봄과 가을에 두 번 합니다.",
-  contents: [
-    { id: 1, name: "1. 부산과 영화제"},
-    { id: 2, name: "2. 작년 봄의 한국"},
-    { id: 3, name: "3. 처음 먹어 본 생선회"},
-    { id: 4, name: "4. 가장 기억에 남는 한국 여행"},
-  ],
-  layout: "col-span-4 w-full text-xs",
-},
 
-{
-  head: "question32",
-  question: 32,
-  title: (
-    <div className="flex text-justify w-full">
-      이 글의 내용과 같은 것을 고르십시오. (.............. )
-    </div>
-  ),
-  answer: 1,
-  answerStr: "1. 부산은 구경거리가 많습니다.",
-  contents: [
-    { id: 1, name: "1. 부산은 구경거리가 많습니다."},
-    { id: 2, name: "2. 이 사람은 매년 부산에 갑니다."},
-    { id: 3, name: "3. 이 사람은 고향에서 생선회를 먹어 봤습니다."},
-    { id: 4, name: "4. 이 사람은 한국에서 부산만 여행해 봤습니다."},
-  ],
-  layout: "col-span-4 w-full text-xs",
-},
-{
-  head: "question33",
-  question: 33,
-  title: (
-    <div className="flex text-justify w-full">
-        부산 영화제에 대한 설명으로 맞지 않는 것을 고르십시오.  (.............. )
-    </div>
-  ),
-  answer: 2,
-  answerStr: "2. 영화제는 매년 봄과 가을에 두 번 합니다.",
-  contents: [
-    { id: 1, name: "1. 영화제는 7일 동안 합니다."},
-    { id: 2, name: "2. 영화제는 매년 봄과 가을에 두 번 합니다."},
-    { id: 3, name: "3. 영화제에서 여러 나라 영화를 볼 수 있습니다."},
-    { id: 4, name: "4. 영화제에서는 유명한 배우들도 만날 수 있습니다."},
-  ],
-  layout: "col-span-4 w-full text-xs",
-},
+
+  
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+
 
 ];
-
 
 export default function Listen() {
   const [resultData, setResultData] = useState();
   const [errorCount, seterrorCount] = useState(0);
   const [segmentedValue, setSegmentedValue] = useState("Унших");
+  const [error, setError] = useState<string | undefined>();
+  const [open, setOpen] = useState(true);
+
   const [form] = useForm();
   type FieldType = {
     question?: number;
@@ -691,6 +602,7 @@ export default function Listen() {
   useEffect(() => {}, [errorCount]);
 
   const onFinish: FormProps<any>["onFinish"] = (values) => {
+    setError(undefined)
     seterrorCount(0);
     setResultData(values);
     var errorResultNumber: number = 0;
@@ -698,9 +610,7 @@ export default function Listen() {
     data.forEach((element, i) => {
           if (element.head === Object.entries(values)[i]?.[0]) {
             if (element.answer !== Object.entries(values)[i][1]) {
-                if(element.head !== "question1228"){
                   errorResultNumber++;
-                }
             }
           }
   
@@ -712,27 +622,160 @@ export default function Listen() {
     errorInfo
   ) => {
     console.log("Failed:", errorInfo);
+    setError("Бүх талбарыг бөглөнө үү!")
   };
   return (
      <>
-        <div className="w-full border border-black">
-          <div className="flex-col justify-between gap-5 w-full">
+        <div className="w-full">
+          <div className="flex-col border border-black justify-between gap-5 w-full">
+          
             <div className="flex justify-between gap-5 w-full px-12 py-3 font-bold max-md:px-2">
               <div>2024학년도 한국어 능력평가</div>
               <div>고사 일자 2024년 월 일</div>
             </div>
-            <div className="text-center font-bold pb-3">읽기</div>
+            <div className="text-center font-bold pb-3">듣기</div>
             <div className="flex justify-between bg-gray-300 w-full font-bold">
               <div className="text-center w-full border border-black">벡잠</div>
               <div className="text-center w-full border border-black">이름</div>
             </div>
             <div className="flex justify-between  w-full">
               <div className="text-center w-full border border-black py-2">
-                32문제*3점+1문제*4점=100점
+                20문제*3점+10문제*4점=100점
               </div>
               <div className="text-center w-full border border-black"></div>
             </div>
           </div>
+          <div>
+          {resultData ? (
+            <div className="flex items-center justify-end w-full mt-2 gap-4">
+              <div className="text-red-500">Алдсан тоо: {errorCount}</div>
+              <div className="text-green-500">
+                Зөв хариулсан: {33 - errorCount}
+              </div>
+
+              <Button
+                type="primary"
+                size="small"
+                onClick={() => (
+                  form.resetFields(), setResultData(undefined), seterrorCount(0)
+                )}
+              >
+                Шинээр эхлэх
+              </Button>
+            </div>
+          ) : null}
+          <Form
+            form={form}
+            name="basic"
+            labelCol={{ span: 24 }}
+            wrapperCol={{ span: 24 }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            {data?.map((e: any, i: number) => (
+              <div className="text-xs w-full pb-2" key={i}> 
+                {e.subtitle ? e.subtitle : ""} 
+                {e.headTitle ? e.headTitle : null} 
+                {e.contentDetail ? e.contentDetail : null}
+                {e.title}
+                <Form.Item<any>
+                  label=""
+                  name={e.head}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Заавал бөглөнө үү!",
+                    },
+                  ]}
+                  className="mt-2 mx-2"
+                >
+                  <Radio.Group
+                    size="small"
+                    value={1}
+                    className="w-full"
+                    style={{ width: "100%" }}
+                  >
+                    <div className="grid grid-cols-4 w-full gap-2">
+                      {e.contents?.map((details: any, index: number) => (
+                        <Radio
+                          value={details.id}
+                          key={index}
+                          className={e.layout}
+                        >
+                          {details.name ? details.name : 
+                            <Image alt="exam" src={details.image}/>
+                          }
+
+                        </Radio>
+                      ))}
+                    </div>
+                  </Radio.Group>
+                </Form.Item> 
+                <div className="-mt-4"> 
+                  {resultData ? (
+                    e.head == Object.entries(resultData)[i]?.[0] ? (
+                      e.answer === Object.entries(resultData)[i]?.[1] ? (
+                        ""
+                      ) : (
+                        <div className="text-red-500">
+                          {e.head === "question1228" ? "" :  "Зөв хариулт: " + e.answerStr }
+                        </div>
+                      )
+                    ) : (
+                       ""
+                    )
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
+            ))}
+  
+            {resultData ? (
+              <div className="flex items-center justify-end w-full mt-2 gap-4 mb-4">
+                <div className="text-red-500">Алдсан тоо: {errorCount}</div>
+                <div className="text-green-500">
+                  Зөв хариулсан: {33 - errorCount}
+                </div>
+                <Button
+                  type="primary"
+                  size="small"
+                  onClick={() => (
+                    form.resetFields(),
+                    setResultData(undefined),
+                    seterrorCount(0)
+                  )}
+                >
+                  Шинээр эхлэх
+                </Button>
+              </div>
+            ) : null}
+            {error ? <div className="text-red-500 font-bold text-center mb-2">{error}</div> : null}
+            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+              <Button type="primary" htmlType="submit">
+                Шалгалтаа дуусгах
+              </Button>
+            </Form.Item>
+          </Form>
+          </div>
+          <FloatButton.Group
+            onClick={() => setOpen(!open)}
+            trigger="click"
+            open={open}
+            type="primary"
+            style={{ left: 10, top: 100 }}
+            icon={<CustomerServiceOutlined />}
+          >
+            <div className="w-64"> 
+            <AudioPlayer
+              autoPlay
+              src="/listen/sonsgol.mp3"
+              // other props here
+            />
+            </div>
+            
+          </FloatButton.Group>
         </div> 
      </>
   );

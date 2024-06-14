@@ -4,6 +4,7 @@ import {
   Button,
   Checkbox,
   Flex,
+  FloatButton,
   Form,
   FormProps,
   Input,
@@ -57,7 +58,7 @@ const data = [
       { id: 3, name: "3. 색깔" },
       { id: 4, name: "4. 디자인" },
     ],
-    layout: "col-span-1 text-xs",
+    layout: "col-span-2 text-xs",
   },
   {
     head: "question4",
@@ -171,7 +172,7 @@ const data = [
     title: (
       <div className="flex text-center justify-center w-full">
         추석에 고향에 가려면 표를 빨리 사{" "}
-        <p className="underline pl-1 pr-1">놓아야</p> 꽃집이 돼요.
+        <p className="underline pl-1 pr-1">놓아야</p> 돼요.
       </div>
     ),
     answer: 3,
@@ -576,7 +577,7 @@ const data = [
   head: "question29",
   question: 29,
   subTitle:
-  "※ [27∼28] 다음 글을 읽고 물음에 답하십시오. (각 3점)",
+  "※ [29∼30] 다음 글을 읽고 물음에 답하십시오. (각 3점)",
   headTitle: <div className=" flex border border-black px-4 py-2 text-justify w-full indent-5 leading-5 tracking-widest">
         저는 내일 친구들과 놀러 갑니다. ( ㉠ ) 곳은 여의도 공원입니다. 우리는 내일 여의도 공원에서 점심을 먹을 겁니다. 저는 내일 친구들하고 먹을 음식과 마실 것을 준비해야 합니다. 내일 낮에는 공원에서 놀고 저녁에는 쇼핑하려고 합니다. 다음 주에 여행을 가는데 비행기에서 볼 책도 사고 친구에게 줄 선물도 사야 합니다.
   </div>,
@@ -617,7 +618,7 @@ const data = [
   head: "question31",
   question: 31,
   subTitle:
-  "※ [27∼28] 다음 글을 읽고 물음에 답하십시오. (각 3점)",
+  "※ [31∼33] 다음 글을 읽고 물음에 답하십시오. (31~32번 3점/33번 4점)",
   headTitle: <div className=" flex border border-black px-4 py-2 text-justify w-full indent-5 leading-5 tracking-widest">
           저는 작년 봄에 한국에 왔습니다. 그동안 한국에서 많은 곳에 가 봤는데 특히 부산에 간
           것이 가장 기억에 남습니다. 저는 부산에서 영화제에 갔습니다. 부산에서는 매년 가을에
@@ -685,6 +686,7 @@ export default function Home() {
   const [resultData, setResultData] = useState();
   const [errorCount, seterrorCount] = useState(0);
   const [segmentedValue, setSegmentedValue] = useState("Унших");
+  const [error, setError] = useState<string | undefined>();
   const [form] = useForm();
   type FieldType = {
     question?: number;
@@ -694,6 +696,7 @@ export default function Home() {
   useEffect(() => {}, [errorCount]);
 
   const onFinish: FormProps<any>["onFinish"] = (values) => {
+    setError(undefined);
     seterrorCount(0);
     setResultData(values);
     var errorResultNumber: number = 0;
@@ -714,7 +717,7 @@ export default function Home() {
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
     errorInfo
   ) => {
-    console.log("Failed:", errorInfo);
+    setError("Бүх талбарыг заавал бөглөнө үү!");
   };
   return (
     <div className="flex justify-center w-full mt-6">
@@ -808,7 +811,7 @@ export default function Home() {
                       message: "Заавал бөглөнө үү!",
                     },
                   ]}
-                  className="mt-2 mx-6"
+                  className="mt-2 max-md:mx-0 mx-6"
                 >
                   <Radio.Group
                     size="small"
@@ -869,6 +872,7 @@ export default function Home() {
                 </Button>
               </div>
             ) : null}
+            {error ? <div className="text-red-500 font-bold text-center mb-2">{error}</div> : null}
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
               <Button type="primary" htmlType="submit">
                 Шалгалтаа дуусгах
@@ -880,6 +884,7 @@ export default function Home() {
       : segmentedValue === "Бичих" ? <Write /> : <div> <Listen /></div>
       }
       </div>
+      <FloatButton.BackTop />
     </div>
   );
 }
