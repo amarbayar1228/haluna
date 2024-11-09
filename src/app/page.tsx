@@ -49,8 +49,14 @@ export default function Home() {
     }, [targetDate]);
 
     return (
-      <div>
-        <div className="flex gap-2 text-white capitalize">
+      <div className="bg-[#ddd1ca] pt-5 pb-20 relative">
+        
+        <div className="flex justify-center gap-2 text-[#735c4f] font-bold text-3xl pb-5 relative">
+        <div className="w-[73%] mx-auto mt-5 h-[1px] bg-white absolute z-0"></div>
+          <div className="bg-[#ddd1ca] z-10 px-3">Party Event</div>
+        </div>
+        <div className="flex justify-center gap-2 text-[#735c4f] capitalize">
+        
           <span className="border text-center p-4 flex-col"> 
             <div className="font-bold text-xl">{timeLeft.days}</div>days 
           </span>
@@ -66,7 +72,7 @@ export default function Home() {
         </div>
 
         {/* Gradient background div */}
-        <div style={{ 
+        {/* <div style={{ 
           background: "linear-gradient(214deg, #E05F8A 0%, #E3AABD 100%)",
           backgroundColor: "transparent", // Optional, if you want to allow the gradient to show through a transparent background
           height: "400px",
@@ -82,20 +88,20 @@ export default function Home() {
           }}>
             <div style={{position: "relative", zIndex: 2}}>asdasd</div>
           </div> 
-        </div>
+        </div> */}
       </div>
     );
   };
 
-  const targetDate = '2024-11-13T20:00:00'; // Ensure the date is in the correct format (ISO 8601)
+  const targetDate = '2024-11-13:20:00:00'; // Ensure the date is in the correct format (ISO 8601)
 
   return (
     <div className="flex justify-center w-full ">
-      <div className="w-[600px] max-md:w-full text-xs">
-        <Image alt="zurag" src="/image/white1.png" width={1000} height={8000} />
+      <div className="w-[700px] max-md:w-full text-xs">
+        <Image alt="zurag" className="h-[80vh]" src="/image/white1.png" width={1000} height={8000} />
 
         {/* Show countdown timer */}
-        {/* <CountdownTimer targetDate={targetDate} /> */}
+        <CountdownTimer targetDate={targetDate} />
 
         {/* Text section with a custom font */}
       </div>
