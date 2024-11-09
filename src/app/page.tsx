@@ -14,8 +14,8 @@ export default function Home() {
 
   useEffect(() => {
     const updateTime = () => {
-      const now = new Date();
-      const target = new Date("2024-11-13T20:00:00");
+      const now: any = new Date();
+      const target: any = new Date("2024-11-13T20:00:00");
       const difference = target - now;
 
       if (difference <= 0) {
