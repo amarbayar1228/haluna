@@ -62,8 +62,8 @@ export default function Home() {
             </span>
           </div>
           <div className="flex justify-center mt-10">
-          {/* <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25547.426646652788!2d127.12546439011071!3d36.83221653736704!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357b28637d4ed659%3A0xec0460c3f536f0e5!2z7Lap7LKt64Ko64-EIOyynOyViOyLnCDshJzrtoHqtawg7ISx7KCV64-ZIDE1MDY!5e0!3m2!1sko!2skr!4v1731132951220!5m2!1sko!2skr" 
-        width="320" height="300" loading="lazy"></iframe> */}
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25547.426646652788!2d127.12546439011071!3d36.83221653736704!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357b28637d4ed659%3A0xec0460c3f536f0e5!2z7Lap7LKt64Ko64-EIOyynOyViOyLnCDshJzrtoHqtawg7ISx7KCV64-ZIDE1MDY!5e0!3m2!1sko!2skr!4v1731132951220!5m2!1sko!2skr" 
+        width="320" height="300" loading="lazy"></iframe>
           </div>
         </div>
       </div>
