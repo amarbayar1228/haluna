@@ -56,17 +56,17 @@ export default function Home() {
           <div className="bg-[#ddd1ca] z-10 px-3">Party Event</div>
         </div>
         <div className="flex justify-center gap-2 text-[#735c4f] capitalize">
-          <span className="border text-center p-4 flex-col"> 
-            <div className="font-bold text-xl">{timeLeft.days}</div>days 
+          <span className="border text-center p-4 flex-col">
+            <div className="font-bold text-xl">{timeLeft?.days}</div>days 
           </span>
           <span className="border text-center p-4 flex-col"> 
-            <div className="font-bold text-xl">{timeLeft.hours}</div>hours 
+            <div className="font-bold text-xl">{timeLeft?.hours}</div>hours 
           </span>
           <span className="border text-center p-4 flex-col"> 
-            <div className="font-bold text-xl">{timeLeft.minutes}</div> minutes 
+            <div className="font-bold text-xl">{timeLeft?.minutes}</div> minutes 
           </span>
           <span className="border text-center p-4 flex-col"> 
-            <div className="font-bold text-xl">{timeLeft.seconds}</div> seconds
+            <div className="font-bold text-xl">{timeLeft?.seconds}</div> seconds
           </span>
         </div>
         <div className="flex justify-center mt-10">
@@ -101,10 +101,8 @@ export default function Home() {
     <div className="flex justify-center w-full ">
       <div className="w-[700px] max-md:w-full text-xs">
         <Image alt="zurag" className="h-[80vh]" src="/image/white1.png" width={1000} height={8000} />
-
         {/* Show countdown timer */}
         <CountdownTimer targetDate={targetDate} />
-
         {/* Text section with a custom font */}
       </div>
       <FloatButton.BackTop />
