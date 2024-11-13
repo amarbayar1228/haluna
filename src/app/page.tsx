@@ -1,10 +1,10 @@
-// Add this at the very top of the file to mark it as a Client Component
 "use client"; 
 import { SmileFilled, CopyOutlined } from '@ant-design/icons';
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Typography } from "antd";
 const { Paragraph, Text } = Typography;
+
 export default function Home() {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -20,7 +20,7 @@ export default function Home() {
       const difference = target - now;
 
       if (difference <= 0) {
-        clearInterval(interval);
+        clearInterval(interval);  // interval can now be accessed
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
         return;
       }
@@ -33,10 +33,11 @@ export default function Home() {
       setTimeLeft({ days, hours, minutes, seconds });
     };
 
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
+    const interval = setInterval(updateTime, 1000);  // Declare interval here
 
-    return () => clearInterval(interval);
+    updateTime();  // Call it immediately once
+
+    return () => clearInterval(interval);  // Clean up on component unmount
   }, []);
 
   return (
@@ -72,7 +73,6 @@ export default function Home() {
                       tooltips: ['Хаяг хуулах', 'Хуулагдсан!!'],   
                       icon: [<CopyOutlined key="copy-icon" />, <SmileFilled key="copied-icon" />],
                     }}
-                    
                   > 
                   Address:   66, 문암로 동남구, 천안시, 충청남도 
                   </Paragraph>
