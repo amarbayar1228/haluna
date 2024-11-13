@@ -42,7 +42,7 @@ export default function Home() {
   return (
     <div className="flex justify-center w-full ">
       <div className="w-[700px] max-md:w-full text-xs">
-        <Image alt="zurag" className="h-[80vh]" src="/image/white1.png" width={1000} height={8000} />
+        <Image alt="zurag" className="h-[80vh]" src="/image/white2.png" width={1000} height={8000} />
         <div className="bg-[#ddd1ca] pt-5 pb-20 relative">
           <div className="flex justify-center gap-2 text-[#735c4f] font-bold text-3xl pb-5 relative">
             <div className="w-[73%] mx-auto mt-5 h-[1px] bg-white absolute z-0"></div>
