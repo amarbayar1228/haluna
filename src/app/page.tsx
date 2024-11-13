@@ -1,9 +1,10 @@
 // Add this at the very top of the file to mark it as a Client Component
 "use client"; 
-
+import { SmileFilled, CopyOutlined } from '@ant-design/icons';
 import { useState, useEffect } from "react";
 import Image from "next/image";
-
+import { Typography } from "antd";
+const { Paragraph, Text } = Typography;
 export default function Home() {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -61,9 +62,24 @@ export default function Home() {
               <div className="font-bold text-xl">{timeLeft.seconds}</div> seconds
             </span>
           </div>
-          <div className="flex justify-center mt-10">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25547.426646652788!2d127.12546439011071!3d36.83221653736704!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357b28637d4ed659%3A0xec0460c3f536f0e5!2z7Lap7LKt64Ko64-EIOyynOyViOyLnCDshJzrtoHqtawg7ISx7KCV64-ZIDE1MDY!5e0!3m2!1sko!2skr!4v1731132951220!5m2!1sko!2skr" 
-        width="320" height="300" loading="lazy"></iframe>
+          <div className="flex flex-col items-center mt-10">
+            <div className='flex'>
+              <div>  
+                <Paragraph  
+                className='text-[#735c4f] font-bold'
+                    copyable={{
+                      text: '66, 문암로 동남구, 천안시, 충청남도',
+                      tooltips: ['Хаяг хуулах', 'Хуулагдсан!!'],   
+                      icon: [<CopyOutlined key="copy-icon" />, <SmileFilled key="copied-icon" />],
+                    }}
+                    
+                  > 
+                  Address:   66, 문암로 동남구, 천안시, 충청남도 
+                  </Paragraph>
+              </div>
+            </div>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1596.547529050452!2d127.18097349244651!3d36.84019940145391!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357b293b4000739d%3A0x5750ce242db8360c!2s66%20Munam-ro%2C%20Dongnam-gu%2C%20Cheonan%2C%20Chungcheongnam-do!5e0!3m2!1sen!2skr!4v1731481498545!5m2!1sen!2skr"
+              width="320" height="300" loading="lazy"></iframe>
           </div>
         </div>
       </div>
